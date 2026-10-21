@@ -1,0 +1,11 @@
+{
+  "name": "即现 · 来源画廊",
+  "short_name": "即现",
+  "description": "有来源的图片、视频与网页创作画廊",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f6f2",
+  "theme_color": "#c64b28",
+  "icons": []
+}

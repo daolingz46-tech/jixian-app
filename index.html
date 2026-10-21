@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#f7f6f2" />
+<title>即现 · 来源画廊</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%23c64b28%27/%3E%3Ctext x=%2716%27 y=%2723%27 font-size=%2720%27 text-anchor=%27middle%27 fill=%27white%27%3E%E2%9C%B3%3C/text%3E%3C/svg%3E" />
+<link rel="manifest" href="assets/manifest.json" />
+<link rel="stylesheet" href="app.css" />
+</head>
+<body>
+<div id="device">
+  <div id="notch"></div>
+  <div id="statusbar"><span id="clock">9:41</span><span class="right">
+    <svg width="17" height="11" viewBox="0 0 17 11"><path fill="currentColor" d="M8.5 10.5 6 7.2a4.4 4.4 0 0 1 5 0zM3 6.3 1.4 4.5a9.4 9.4 0 0 1 14.2 0L14 6.3a7 7 0 0 0-11 0z"/></svg>
+    <svg width="24" height="11" viewBox="0 0 24 11"><rect x="0" y="1" width="20" height="9" rx="2.5" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="1.6" y="2.6" width="15" height="5.8" rx="1.5" fill="currentColor"/><path fill="currentColor" fill-opacity=".4" d="M21.4 3.6v3.8c1-.3 1.6-1 1.6-1.9s-.6-1.6-1.6-1.9z"/></svg>
+  </span></div>
+
+  <!-- 启动页 -->
+  <section class="screen on" id="splash">
+    <div class="mark">✳</div>
+    <h1>即 现</h1>
+    <p>JIXIAN · SOURCE GALLERY</p>
+    <div class="bar"><i></i></div>
+    <div class="tip">正在加载 17 个有来源的案例…</div>
+  </section>
+
+  <!-- 登录页 -->
+  <section class="screen" id="login">
+    <div class="brand"><span class="dot">✳</span><b>即现</b></div>
+    <h2>登录即现</h2>
+    <div class="sub">看到喜欢的作品，把它的源头带走</div>
+    <div class="field"><label>手机号</label><div class="row"><input id="phone" type="tel" maxlength="11" placeholder="请输入手机号" /></div></div>
+    <div class="field"><label>验证码</label><div class="row"><input id="code" type="tel" maxlength="4" placeholder="4 位验证码" /><button class="code" id="codeBtn">获取验证码</button></div></div>
+    <div class="err" id="loginErr"></div>
+    <button class="btn" id="loginBtn">登录</button>
+    <button class="ghost btn" id="guestBtn">先看看，不登录</button>
+    <div class="or">其他方式</div>
+    <button class="wechat" id="wechatBtn">微信一键登录</button>
+    <div class="legal">登录即代表同意<a href="#">《用户协议》</a>与<a href="#">《隐私政策》</a><br />演示登录：任意手机号 + 任意 4 位验证码</div>
+  </section>
+
+  <!-- 主体 -->
+  <section class="screen" id="main">
+    <div class="topbar">
+      <div class="brand"><i>✳</i>即现</div>
+      <input class="search" id="search" type="search" placeholder="搜索作品 / 作者 / 标签" />
+      <div class="avatar" id="ava">即</div>
+    </div>
+    <div class="body">
+      <!-- 发现 -->
+      <div class="page on" id="page-discover">
+        <div class="hero">
+          <div class="eyebrow">SOURCE COLLECTION</div>
+          <h1>找到好作品，<br /><em>也找到它的源头。</em></h1>
+          <p>独立创作者策展的 AI 提示词画廊。每个案例都带作者、来源、许可与复跑状态。</p>
+          <div class="stats"><span>17 个案例</span><span>图片 · 视频 · 网页</span><span>MIT / CC 标注</span></div>
+        </div>
+        <div class="tabs" id="tabs"></div>
+        <div class="grid" id="grid"></div>
+        <div style="padding:0 18px 26px;font-size:11px;color:var(--muted);text-align:center" id="count"></div>
+      </div>
+      <!-- 收藏 -->
+      <div class="page" id="page-saved">
+        <div style="padding:18px 18px 4px;font-size:20px;font-weight:600">我的收藏</div>
+        <div class="list" id="savedList"></div>
+      </div>
+      <!-- 我的 -->
+      <div class="page" id="page-me">
+        <div class="profile">
+          <div class="pcard"><div class="ava">即</div><div><b id="pname">—</b><span id="pphone">—</span></div></div>
+          <div class="prow">
+            <button data-tab="saved">我的收藏<span id="psaved">0 个</span></button>
+            <button>案例总数<span id="pall">17 个</span></button>
+            <button id="aboutBtn">关于即现<span>v1.0</span></button>
+            <button id="logoutBtn">退出登录<span></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav id="tabbar">
+      <button data-tab="discover" class="on"><i>⌂</i>发现</button>
+      <button data-tab="saved"><i>☆</i>收藏</button>
+      <button data-tab="me"><i>◉</i>我的</button>
+    </nav>
+    <!-- 详情页 -->
+    <section class="screen" id="detail">
+      <div class="dhead"><button id="backBtn">←</button><b id="dtitle"></b></div>
+      <div id="detailBody"></div>
+    </section>
+  </section>
+
+  <div id="homebar"><i></i></div>
+  <div id="toast"></div>
+</div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+  setInterval(() => {
+    const d = new Date()
+    document.getElementById('clock').textContent = d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0')
+  }, 1000)
+  document.querySelectorAll('#page-me [data-tab]').forEach((b) => (b.onclick = () => switchTab(b.dataset.tab)))
+</script>
+</body>
+</html>
