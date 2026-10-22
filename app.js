@@ -17,6 +17,10 @@ function toast(msg) {
 
 function screen(name) {
   document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === name))
+  if (name !== 'splash') {
+    const sp = document.getElementById('splash')
+    if (sp) sp.remove()
+  }
 }
 
 /* ---------- 启动页 ---------- */
