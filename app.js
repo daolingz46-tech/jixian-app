@@ -15,8 +15,15 @@ function toast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('on'), 1600)
 }
 
+const NAV_TITLES = { login: '登录', main: '即现' }
 function screen(name) {
   document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === name))
+  const nav = document.getElementById('navbar')
+  if (name === 'splash') nav.classList.add('hide')
+  else {
+    nav.classList.remove('hide')
+    document.getElementById('navTitle').textContent = NAV_TITLES[name] || '即现'
+  }
   if (name !== 'splash') {
     const sp = document.getElementById('splash')
     if (sp) sp.remove()
@@ -184,6 +191,7 @@ function openDetail(id) {
   $('#openPrimary').onclick = () => window.open(c.primary_url || (c.resources || [])[0]?.url || '#', '_blank', 'noopener')
   $('#saveBtn').onclick = () => { toggleSave(c.id); $('#saveBtn').textContent = saved()[c.id] ? '★ 已收藏' : '☆ 收藏' }
   $('#detail').classList.add('on')
+  document.getElementById('navTitle').textContent = '案例详情'
 }
 
 function renderSaved() {
@@ -220,8 +228,11 @@ function renderProfile() {
   $('#pall').textContent = CASES.length + ' 个'
 }
 
+const TAB_TITLES = { discover: '即现', saved: '我的收藏', me: '我的' }
 function switchTab(name) {
   tab = name
+  const t = TAB_TITLES[name]
+  if (t) document.getElementById('navTitle').textContent = t
   document.querySelectorAll('#tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === name))
   document.querySelectorAll('.page').forEach((p) => p.classList.toggle('on', p.id === 'page-' + name))
   if (name === 'saved') renderSaved()
@@ -229,15 +240,75 @@ function switchTab(name) {
 }
 
 /* ---------- 事件绑定 ---------- */
+// ---------- 小程序形态：胶囊按钮 / 操作面板 / 下拉刷新 ----------
+function openSheet() { document.getElementById('mask').classList.add('on'); document.getElementById('sheet').classList.add('on') }
+function closeSheet() { document.getElementById('mask').classList.remove('on'); document.getElementById('sheet').classList.remove('on') }
+
+function bindMiniProgram() {
+  document.getElementById('navCapsule').onclick = openSheet
+  document.getElementById('mask').onclick = closeSheet
+  document.querySelectorAll('#sheet [data-act]').forEach((el) => {
+    el.onclick = () => {
+      const act = el.dataset.act
+      closeSheet()
+      if (act === 'cancel') return
+      if (act === 'friend') toast('已转发给朋友（演示）')
+      else if (act === 'moments') toast('已分享到朋友圈（演示）')
+      else if (act === 'fav') toast('已收藏小程序')
+      else if (act === 'home') toast('已添加到我的小程序')
+    }
+  })
+
+  // 下拉刷新：滚动到顶部再向下拖动
+  const ptr = document.getElementById('ptr')
+  const body = document.querySelector('.body')
+  let startY = 0, pulling = false, dist = 0
+  body.addEventListener('touchstart', (e) => {
+    if (body.scrollTop <= 0 && !document.getElementById('detail').classList.contains('on')) {
+      startY = e.touches[0].clientY; pulling = true; dist = 0
+    }
+  }, { passive: true })
+  body.addEventListener('touchmove', (e) => {
+    if (!pulling) return
+    dist = e.touches[0].clientY - startY
+    if (dist > 0) {
+      ptr.style.transform = `translate(-50%, ${Math.min(dist - 46, 0)}px)`
+      if (dist > 60) ptr.classList.add('on')
+      else ptr.classList.remove('on')
+    }
+  }, { passive: true })
+  body.addEventListener('touchend', () => {
+    if (!pulling) return
+    pulling = false
+    ptr.classList.remove('on')
+    ptr.style.transform = 'translate(-50%, -46px)'
+    if (dist > 60) {
+      ptr.classList.add('on')
+      toast('正在刷新…')
+      setTimeout(() => {
+        ptr.classList.remove('on')
+        if (tab === 'discover') renderGrid()
+        if (tab === 'saved') renderSaved()
+        if (tab === 'me') renderProfile()
+        toast('已更新')
+      }, 900)
+    }
+  })
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   $('#codeBtn').onclick = sendCode
   $('#loginBtn').onclick = () => doLogin('phone')
   $('#wechatBtn').onclick = () => doLogin('wechat')
   $('#guestBtn').onclick = guest
-  $('#backBtn').onclick = () => $('#detail').classList.remove('on')
+  $('#backBtn').onclick = () => {
+    $('#detail').classList.remove('on')
+    document.getElementById('navTitle').textContent = TAB_TITLES[tab] || '即现'
+  }
   $('#search').oninput = (e) => { keyword = e.target.value; renderGrid() }
   document.querySelectorAll('#tabbar button').forEach((b) => (b.onclick = () => switchTab(b.dataset.tab)))
   $('#logoutBtn').onclick = logout
+  bindMiniProgram()
   $('#aboutBtn').onclick = () => toast('即现 v1.0 · 来源画廊 App 版')
   splash()
 })

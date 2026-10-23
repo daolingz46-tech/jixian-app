@@ -17,6 +17,14 @@
     <svg width="24" height="11" viewBox="0 0 24 11"><rect x="0" y="1" width="20" height="9" rx="2.5" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="1.6" y="2.6" width="15" height="5.8" rx="1.5" fill="currentColor"/><path fill="currentColor" fill-opacity=".4" d="M21.4 3.6v3.8c1-.3 1.6-1 1.6-1.9s-.6-1.6-1.6-1.9z"/></svg>
   </span></div>
 
+  <!-- 小程序导航栏：标题 + 胶囊按钮 -->
+  <header id="navbar" class="hide">
+    <div class="nav-title" id="navTitle">即现</div>
+    <div class="nav-capsule" id="navCapsule">
+      <span>⋯</span><i></i><span>⊙</span>
+    </div>
+  </header>
+
   <!-- 启动页 -->
   <section class="screen on" id="splash">
     <div class="mark">✳</div>
@@ -44,7 +52,6 @@
   <!-- 主体 -->
   <section class="screen" id="main">
     <div class="topbar">
-      <div class="brand"><i>✳</i>即现</div>
       <input class="search" id="search" type="search" placeholder="搜索作品 / 作者 / 标签" />
       <div class="avatar" id="ava">即</div>
     </div>
@@ -92,7 +99,20 @@
   </section>
 
   <div id="homebar"><i></i></div>
+  <div id="ptr"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
   <div id="toast"></div>
+
+  <!-- 小程序风格操作面板 -->
+  <div id="mask"></div>
+  <div id="sheet">
+    <div class="sheet-group">
+      <div class="sheet-item" data-act="friend">转发给朋友</div>
+      <div class="sheet-item" data-act="moments">分享到朋友圈</div>
+      <div class="sheet-item" data-act="fav">收藏小程序</div>
+      <div class="sheet-item" data-act="home">添加到我的小程序</div>
+    </div>
+    <div class="sheet-cancel" data-act="cancel">取消</div>
+  </div>
 </div>
 <script src="data.js"></script>
 <script src="app.js"></script>
