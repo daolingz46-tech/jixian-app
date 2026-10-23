@@ -208,6 +208,8 @@ body {
 .dactions .save { flex: 0 0 54px; background: var(--surface); border: 1px solid var(--line); color: var(--text); }
 
 /* ---------- 收藏 / 我的 ---------- */
+.subhead { flex: none; padding: 4px 18px 10px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.subhead h2 { margin: 0; font-size: 20px; font-weight: 600; }
 .page { flex: 1; display: none; flex-direction: column; min-height: 0; }
 .page.on { display: flex; }
 .list { padding: 14px 18px 24px; display: flex; flex-direction: column; gap: 12px; }

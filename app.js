@@ -233,6 +233,7 @@ function switchTab(name) {
   tab = name
   const t = TAB_TITLES[name]
   if (t) document.getElementById('navTitle').textContent = t
+  document.querySelector('.topbar').style.display = name === 'discover' ? 'flex' : 'none'
   document.querySelectorAll('#tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === name))
   document.querySelectorAll('.page').forEach((p) => p.classList.toggle('on', p.id === 'page-' + name))
   if (name === 'saved') renderSaved()
