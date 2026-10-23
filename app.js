@@ -131,7 +131,7 @@ function renderGrid() {
       (c) => `
     <div class="card" data-id="${c.id}">
       <div class="thumb">
-        <img src="${c.cover}" alt="${c.title}" loading="lazy" />
+        <img src="${c.cover}" alt="${c.title}" />
         <span class="badge">${mediaLabel[c.media]}</span>
         <button class="plus ${s[c.id] ? 'on' : ''}" data-save="${c.id}">${s[c.id] ? '★' : '+'}</button>
       </div>
